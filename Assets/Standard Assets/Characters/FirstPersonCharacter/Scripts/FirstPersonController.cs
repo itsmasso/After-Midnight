@@ -2,13 +2,15 @@ using System;
 using UnityEngine;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using FishNet.Connection;
+using FishNet.Object;
 
 #pragma warning disable 618, 649
 namespace UnityStandardAssets.Characters.FirstPerson
 {
     [RequireComponent(typeof (CharacterController))]
     [RequireComponent(typeof (AudioSource))]
-    public class FirstPersonController : MonoBehaviour
+    public class FirstPersonController : NetworkBehaviour
     {
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
@@ -29,6 +31,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
         private Camera m_Camera;
+        private float cameraYOffset = 0.4f;
         private bool m_Jump;
         private float m_YRotation;
         private Vector2 m_Input;
@@ -41,6 +44,25 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
+
+        // Use this to handle the multiplayer
+        public override void OnStartClient()
+        {
+            Debug.Log("OnStartClient");
+            base.OnStartClient();
+            if (base.IsOwner)
+            {
+                Debug.Log("This is owner");
+                m_Camera = Camera.main;
+                m_Camera.transform.position = new Vector3(transform.position.x, transform.position.y + cameraYOffset, transform.position.z);
+                m_Camera.transform.SetParent(transform);
+            }
+            else
+            {
+                Debug.Log("This is NOT owner");
+                gameObject.GetComponent<FirstPersonController>().enabled = false;
+            }
+        }
 
         // Use this for initialization
         private void Start()

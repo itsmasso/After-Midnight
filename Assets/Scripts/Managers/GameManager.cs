@@ -1,4 +1,8 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using FishNet.Connection;
+using FishNet.Object;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -6,8 +10,7 @@ public class GameManager : Singleton<GameManager>
 	void Start()
 	{
 		levelGenerator.Generate();
-		UnitManager.Instance.SpawnPlayer(levelGenerator.GetPlayerSpawnPosition());
-		
+		//UnitManager.Instance.SpawnPlayer(levelGenerator.GetPlayerSpawnPosition());
 	}
 
 	// Update is called once per frame

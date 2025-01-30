@@ -56,6 +56,7 @@ public class PlayerCamera : NetworkBehaviour
 	
 	void Start()
 	{
+		Debug.Log("PlayerCamera.cs is being used");
 		Cursor.lockState = CursorLockMode.Locked;
 		Cursor.visible = false;
 		playerController = gameObject.GetComponent<PlayerController>();
