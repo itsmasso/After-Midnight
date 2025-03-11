@@ -6,7 +6,10 @@ public class Room : MonoBehaviour
 	public Vector3Int position;
 	public Vector3Int size;
 	public bool isStairs;
+	// There is probably a world where we get rid of isMainRoom and only use isSpecialRoom
+	// but that day is not right now
 	public bool isMainRoom;
+	public bool isSpecialRoom;
 	public List<Transform> doorNode;
 	public Transform lightsTransform;
 	

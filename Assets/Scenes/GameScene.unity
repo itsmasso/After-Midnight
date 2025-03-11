@@ -1035,6 +1035,14 @@ PrefabInstance:
       propertyPath: ceilingThickness
       value: 0.2
       objectReference: {fileID: 0}
+    - target: {fileID: 4507854731335237695, guid: 3454158d00f260444947423f4176c895, type: 3}
+      propertyPath: specialRooms.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4507854731335237695, guid: 3454158d00f260444947423f4176c895, type: 3}
+      propertyPath: 'specialRooms.Array.data[0]'
+      value: 
+      objectReference: {fileID: 5168412151322318950, guid: e2155211ce967e74cb355a602de102ee, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

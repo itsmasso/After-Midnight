@@ -52,6 +52,9 @@ ExportedObj/
 *.pdb.meta
 *.mdb.meta
 
+# VSCode History
+.history/
+
 # Unity3D generated file on crash reports
 sysinfo.txt
 
