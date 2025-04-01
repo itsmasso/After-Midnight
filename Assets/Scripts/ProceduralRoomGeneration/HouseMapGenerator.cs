@@ -162,6 +162,26 @@ public class HouseMapGenerator : NetworkSingleton<HouseMapGenerator>
 		Node randomHallwayNode = hallways[UnityEngine.Random.Range(0, hallways.Count)];
 		return new Vector3(randomHallwayNode.pos.x, randomHallwayNode.pos.y - nodeRadius, randomHallwayNode.pos.z);
 	}
+
+	/*****************************************************************
+	* GetRoomsList
+	*****************************************************************
+	* Author: Dylan Werelius
+	*****************************************************************
+	* Description:
+		This function will return a list of the positions of all the
+		rooms that have been spawned. I use it in the UnitManager
+		script to spawn the mannequin monsters in each room.
+	*****************************************************************/
+	public List<Vector3> GetRoomsList()
+	{
+		List<Vector3> roomPositions = new List<Vector3>();
+		UnityEngine.Debug.Log("Getting Room Positions");
+		foreach(GameObject room in rooms) {
+			roomPositions.Add(room.transform.position);
+		}
+		return roomPositions;
+	}
 	
 	public Vector3 GetRandomRoomPosition()
 	{

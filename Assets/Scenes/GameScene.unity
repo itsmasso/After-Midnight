@@ -228,6 +228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   monster: {fileID: 4207613464781364640, guid: 28be38c86f20b0341bd9362bcb46bda4, type: 3}
+  MQMonsterPrefab: {fileID: 4207613464781364640, guid: 406a54f701de6aa43850b6ea7f42e416, type: 3}
   houseMapGenerator: {fileID: 1397590965}
   minSpawnDistFromPlayers: 30
   maxSpawnDistFromPlayers: 40
