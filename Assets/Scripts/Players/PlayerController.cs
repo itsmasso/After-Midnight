@@ -132,6 +132,16 @@ public class PlayerController : NetworkBehaviour
 		newCamPosition.y = currentCamHeight;
 		camFollowPivot.localPosition = newCamPosition;
 	}
+
+	public Vector3 GetPlayerGroundedPosition()
+	{
+		return new Vector3(transform.position.x, floorPosition, transform.position.z);
+	}
+
+	public Vector3 GetPlayerCameraPosition()
+	{
+		return camFollowPivot.position;
+	}
 	
 	void Update()
 	{

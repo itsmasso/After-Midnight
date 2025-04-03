@@ -23,18 +23,22 @@ public enum MQThreatLevel
     AWAKENED
 }
 
-public class GFClockManager : MonoBehaviour
+public class GFClockManager : NetworkSingleton<GFClockManager>
 {
-    private const float TOTAL_TIME = 10;
-    private const float TIME_TO_DANGER = 5;
+    private const float TOTAL_TIME = 20;
+    private const float TIME_TO_DANGER = 10;
     private float currentTime;
     private bool timeRunning;
     private MQThreatLevel currentThreatLevel = MQThreatLevel.PASSIVE;
     private bool canBeWound = false;
 
     // Developer Variables
-    private bool printedActivating = false;
-    private bool printedAwakened = false;
+    // private bool printedActivating = false;
+    // private bool printedAwakened = false;
+    protected override void Awake()
+	{
+		base.Awake();
+	}
     void Start()
     {
         currentTime = TOTAL_TIME;

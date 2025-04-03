@@ -86,7 +86,7 @@ public class UnitManager : MonoBehaviour
 			// Spawn the monster on the first floor
 			if (roomPos.y == -8.00)
 			{
-				GameObject mannequinObject = Instantiate(MQMonsterPrefab, new Vector3(roomPos.x, roomPos.y + MQMonsterPrefab.GetComponent<CapsuleCollider>().height/2, roomPos.z), Quaternion.identity);
+				GameObject mannequinObject = Instantiate(MQMonsterPrefab, new Vector3(roomPos.x, roomPos.y + MQMonsterPrefab.GetComponent<CapsuleCollider>().height/16, roomPos.z), Quaternion.identity);
 				mannequinObject.GetComponent<NetworkObject>().Spawn(true);
 				Debug.Log("Mannequin Spawned at: " + roomPos);
 			}
