@@ -25,7 +25,7 @@ public enum MQThreatLevel
 
 public class GFClockManager : NetworkSingleton<GFClockManager>
 {
-    private const float TOTAL_TIME = 20;
+    private const float TOTAL_TIME = 30;
     private const float TIME_TO_DANGER = 10;
     private float currentTime;
     private bool timeRunning;
@@ -33,8 +33,8 @@ public class GFClockManager : NetworkSingleton<GFClockManager>
     private bool canBeWound = false;
 
     // Developer Variables
-    // private bool printedActivating = false;
-    // private bool printedAwakened = false;
+    private bool printedActivating = false;
+    private bool printedAwakened = false;
     protected override void Awake()
 	{
 		base.Awake();
@@ -60,12 +60,12 @@ public class GFClockManager : NetworkSingleton<GFClockManager>
             timeRunning = false;
             
             // This is just for the sake of making sure the timer is running
-            /*
             if (!printedAwakened)
             {
                 Debug.Log("Monsters have Awakened");
+                printedAwakened = true;
             }
-            Debug.Log("Current Time: " + currentTime);*/
+            //Debug.Log("Current Time: " + currentTime);
         } 
         else if (timeRunning && currentTime <= TIME_TO_DANGER) 
         {
@@ -73,13 +73,12 @@ public class GFClockManager : NetworkSingleton<GFClockManager>
             currentThreatLevel = MQThreatLevel.ACTIVATING;
 
             // This is just for the sake of making sure the timer is running
-            /*
             if (!printedActivating)
             {
                 Debug.Log("Monsters are Activating");
+                printedActivating = true;
             }
-            Debug.Log("Current Time: " + currentTime);
-            */
+            //Debug.Log("Current Time: " + currentTime);
         }
     }
 

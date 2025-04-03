@@ -1,9 +1,13 @@
 using System.Collections.Generic;
+using System.Threading;
 using Unity.Netcode;
 using UnityEngine;
 
 public class LightScript : NetworkBehaviour
 {
+	const float MIN_FLICKER_TIME = 0.5f;
+	const float MAX_FLICKER_TIME = 1f;
+	private GFClockManager manager;
 	[SerializeField] private Light lightSource;
 	[SerializeField] private LayerMask enemyLayer;
 	[SerializeField] private LayerMask obstacleLayer;
@@ -11,8 +15,13 @@ public class LightScript : NetworkBehaviour
 	private int obstacleLayers;
 	[SerializeField] private HashSet<NetworkObject> enemiesInLight = new HashSet<NetworkObject>();
 	[SerializeField] private Collider[] enemyColliders;
+	private float Timer;
 	void Start()
 	{
+		manager = GFClockManager.Instance;
+		// The comment out line would make the flickering all different and random
+		//Timer = Random.Range(MIN_FLICKER_TIME, MAX_FLICKER_TIME);
+		Timer = MIN_FLICKER_TIME;
 		obstacleLayers = obstacleLayer.value | groundLayer.value;
 	}
 
@@ -22,7 +31,7 @@ public class LightScript : NetworkBehaviour
 		if(!IsServer) return;
 		DetectEnemiesInLight();
 		CheckIfEnemyExitLight();
-		
+		CheckLightStatus();
 	}
 	
 	[ServerRpc]
@@ -113,5 +122,51 @@ public class LightScript : NetworkBehaviour
 
 		return true;
 		
+	}
+
+	private void CheckLightStatus()
+	{
+		switch(manager.GetMQThreatLevel())
+		{
+			case MQThreatLevel.PASSIVE:
+				TurnLightsOn();
+				break;
+			case MQThreatLevel.ACTIVATING:
+				FlickerLights();
+				break;
+			case MQThreatLevel.AWAKENED:
+				TurnLightsOff();
+				break;
+			default:
+				TurnLightsOff();
+				Debug.Log("ERROR: LightScript.cs - MQThreatLevel is Broken");
+				break;
+		}
+	}
+
+	private void FlickerLights()
+	{
+		if (Timer > 0)
+		{
+			Timer -= Time.deltaTime;
+		}
+
+		if (Timer <= 0)
+		{
+			lightSource.enabled = !lightSource.enabled;
+			// The comment out line would make the flickering all different and random
+			//Timer = Random.Range(MIN_FLICKER_TIME, MAX_FLICKER_TIME);
+			Timer = MIN_FLICKER_TIME;
+		}
+	}
+
+	private void TurnLightsOff()
+	{
+		lightSource.enabled = false;
+	}
+
+	private void TurnLightsOn()
+	{
+		lightSource.enabled = true;
 	}
 }

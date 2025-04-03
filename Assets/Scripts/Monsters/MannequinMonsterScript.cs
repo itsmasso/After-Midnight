@@ -92,17 +92,23 @@ public class MannequinMonsterScript : NetworkBehaviour, IAffectedByLight
             case MQThreatLevel.ACTIVATING:
                 // Debug.Log("Mannequin Threat Level is now: " + threatLevelNetworkState.Value);
                 // Chase currentTarget at ACTIVATING_SPEED
-                MoveToPlayer(ACTIVATING_MOVE_SPEED);
+                if (!inLight.Value)
+                {
+                    MoveToPlayer(ACTIVATING_MOVE_SPEED);
+                }
                 break;
             case MQThreatLevel.AWAKENED:
                 // Debug.Log("Mannequin Threat Level is now: " + threatLevelNetworkState.Value);
                 // Chase currentTarget at AWAKENED_SPEED
-                MoveToPlayer(AWAKENED_MOVE_SPEED);
+                if (!inLight.Value)
+                {
+                    MoveToPlayer(AWAKENED_MOVE_SPEED);
+                }
                 break;
 
             // This really shouldn't ever happen, but here it is just to be safe
             default:
-                Debug.Log("ERROR: Somehow the Mannequin threat level is broken");
+                Debug.Log("ERROR: MannequinMonsterScript.cs - MQThreatLevel is Broken");
                 agent.canMove = false;
                 break;
         }
@@ -123,16 +129,19 @@ public class MannequinMonsterScript : NetworkBehaviour, IAffectedByLight
     }
     public void EnteredLight() 
     {
-        //Debug.Log("Mannequin is in the light");
-        //agent.canMove = false;
+        if(IsServer)
+        {
+            inLight.Value = true;
+        }
+        agent.canMove = false;
     }
 	public void ExitLight() 
     {
-        // Debug.Log("Mannequin has left the light");
-        if (threatLevelNetworkState.Value != MQThreatLevel.PASSIVE)
+        if (IsServer && threatLevelNetworkState.Value != MQThreatLevel.PASSIVE)
         {
-            agent.canMove = true;
+            inLight.Value = true;
         }
+        agent.canMove = true;
     }
 
 }

@@ -151,6 +151,8 @@ public class HouseMapGenerator : NetworkSingleton<HouseMapGenerator>
 			new Vector3(0, 0, -2)
 		};
 		GameObject room = rooms.FirstOrDefault(r => r.GetComponent<Room>().isMainRoom == true);
+
+		// NOTE: EVERY SO OFTEN THIS THROWS AN ERROR WHERE SOMETHING IS NULL WHEN IT SHOULDN'T BE
 		Vector3 spawnPos = new Vector3(room.transform.position.x + offsets[GameManager.Instance.spawnIndex.Value].x, 
 										room.transform.position.y + room.GetComponent<Room>().size.y/2, 
 										room.transform.position.z+ offsets[GameManager.Instance.spawnIndex.Value].z);
@@ -178,7 +180,10 @@ public class HouseMapGenerator : NetworkSingleton<HouseMapGenerator>
 		List<Vector3> roomPositions = new List<Vector3>();
 		UnityEngine.Debug.Log("Getting Room Positions");
 		foreach(GameObject room in rooms) {
-			roomPositions.Add(room.transform.position);
+			if (!room.GetComponent<Room>().isMainRoom && !room.GetComponent<Room>().isStairs)
+			{
+				roomPositions.Add(room.transform.position);
+			}
 		}
 		return roomPositions;
 	}
@@ -273,7 +278,7 @@ public class HouseMapGenerator : NetworkSingleton<HouseMapGenerator>
 					if (specialRoomIndex < specialRooms.Count) {
 						newRoom = specialRooms[specialRoomIndex];
 						specialRoomIndex++;
-						UnityEngine.Debug.Log("Special Rooms Index: " + specialRoomIndex + " < Special Rooms Count: " + specialRoomIndex);
+						//UnityEngine.Debug.Log("Special Rooms Index: " + specialRoomIndex + " < Special Rooms Count: " + specialRoomIndex);
 					}else{
 						newRoom = bedRoomPrefabList[UnityEngine.Random.Range(0, bedRoomPrefabList.Count)];
 					}

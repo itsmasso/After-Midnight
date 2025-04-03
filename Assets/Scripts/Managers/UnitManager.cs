@@ -88,7 +88,7 @@ public class UnitManager : MonoBehaviour
 			{
 				GameObject mannequinObject = Instantiate(MQMonsterPrefab, new Vector3(roomPos.x, roomPos.y + MQMonsterPrefab.GetComponent<CapsuleCollider>().height/16, roomPos.z), Quaternion.identity);
 				mannequinObject.GetComponent<NetworkObject>().Spawn(true);
-				Debug.Log("Mannequin Spawned at: " + roomPos);
+				//Debug.Log("Mannequin Spawned at: " + roomPos);
 			}
 		}
 	}
